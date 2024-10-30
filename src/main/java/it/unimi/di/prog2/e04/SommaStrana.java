@@ -18,30 +18,64 @@ You should have received a copy of the GNU General Public License
 along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
 package it.unimi.di.prog2.e04;
 
+import java.util.Scanner;
+
 /**
- * Vedi <a
- * href="https://github.com/mapio/labprog/blob/master/esercizi/somma_strana/Testo.md">testo</a>, ma
+ * Vedi <a href=
+ * "https://github.com/mapio/labprog/blob/master/esercizi/somma_strana/Testo.md">testo</a>, ma
  * leggendo gli addendi dal flusso di ingresso.
  */
 public class SommaStrana {
-
-  /** . */
+  /** costruttore */
   private SommaStrana() {}
 
-  // Per memorizzare un elenco di interi si può usare list<Integer>, grazie
-  // all'boxing automatico https://dev.java/learn/numbers-strings/autoboxing/
-  // se la lista è stata dichiarata come
-  //
-  // List<Integer> interi = new ArrayList<>();
-  //
-  // sono legittime espressioni del tipo
-  //
-  // interi.add(3);
-  // int y = interi.get(0);
-  //
-  // dove vengono messi e prelevati dalla lista degli int, non degli Integer.
+  /**
+   * the main
+   *
+   * @param args, the command line arguments
+   */
+  public static void main(String[] args) {
+    String[] numeri = new String[2];
 
+    try (Scanner sc = new Scanner(System.in)) {
+      int i = 0;
+      while (sc.hasNext() && i < 2) {
+        numeri[i] = sc.next();
+        i++;
+      }
+    }
+
+    String n1 = numeri[0];
+    String n2 = numeri[1];
+
+    if (n1.length() > n2.length()) {
+      n2 = "0".repeat(n1.length() - n2.length()) + n2;
+    } else if (n1.length() < n2.length()) {
+      n1 = "0".repeat(n2.length() - n1.length()) + n1;
+    }
+
+    String risultato = "";
+    int riporto = 0;
+    for (int i = n1.length() - 1; i >= 0; i--) {
+      int somma =
+          Integer.parseInt(String.valueOf(n1.charAt(i)))
+              + Integer.parseInt(String.valueOf(n2.charAt(i)))
+              + riporto;
+      if (somma > 9) {
+        riporto = 1;
+        int strana = 9 - somma % 10;
+        if (n1.length() == 1 && n2.length() == 1) {
+          risultato = "1" + Integer.toString(strana) + risultato;
+        } else {
+          risultato = Integer.toString(strana) + risultato;
+        }
+      } else {
+        riporto = 0;
+        risultato = Integer.toString(somma) + risultato;
+      }
+    }
+    System.out.println(risultato);
+  }
 }

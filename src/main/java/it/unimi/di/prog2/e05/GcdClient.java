@@ -18,8 +18,9 @@ You should have received a copy of the GNU General Public License
 along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
 package it.unimi.di.prog2.e05;
+
+import java.util.Scanner;
 
 /** Esercizio 3.1 di PDJ. */
 public class GcdClient {
@@ -27,10 +28,34 @@ public class GcdClient {
   /** . */
   private GcdClient() {}
 
-  // Aggiunga qui un main che invochi il metodo gcd (che può sviluppare in
-  // questa o altra classe) descritto dall'esercizio 3.1 di PDJ.
+  /**
+   * REQUIRES: n e d > 0 MODIFIES: n, d EFFECTS: restituisce il massimo comune divisore tra n e d
+   *
+   * @param n .
+   * @param d .
+   * @return .
+   */
+  public static int gdc(int n, int d) {
+    while (d != 0) {
+      int temp = d;
+      d = n % d;
+      n = temp;
+    }
+    return n;
+  }
 
-  // Il main legge dal flusso di ingresso coppie di numeri ed emette nel flusso
-  // d'uscita il loro gcd.
-
+  /**
+   * REQUIRES: null EFFECTS: stampa l'MCD tra coppie di numeri inseriti
+   *
+   * @param args argomento da linea di comando
+   */
+  public static void main(String[] args) {
+    try (Scanner sc = new Scanner(System.in)) {
+      while (sc.hasNextInt()) {
+        int n = sc.nextInt();
+        int d = sc.nextInt();
+        System.out.println(gdc(n, d));
+      }
+    }
+  }
 }

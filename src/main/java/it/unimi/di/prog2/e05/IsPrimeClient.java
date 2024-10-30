@@ -18,19 +18,36 @@ You should have received a copy of the GNU General Public License
 along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
 package it.unimi.di.prog2.e05;
 
-/** Esercizio 3.3 di PDJ. */
 public class IsPrimeClient {
 
   /** . */
   private IsPrimeClient() {}
 
-  // Aggiunga qui un main che invochi il metodo isPrime (che può sviluppare in
-  // questa o altra classe) descritto dall'esercizio 3.3 di PDJ.
+  /**
+   * REQUIRES: intero n > 0 EFFECTS: restituisce true se n è primo, false altrimenti
+   *
+   * @param n .
+   * @return .
+   */
+  public static boolean isPrime(int n) {
+    for (int i = 2; i <= n / 2; i++) {
+      if (n % i == 0) {
+        return false;
+      }
+    }
+    return true;
+  }
 
-  // Il main riceve un intero come parametro sulla linea di comando ed emette
-  // "true" nel flusso d'uscita se e solo se esso è primo.
-
+  /**
+   * REQUIRES: argomento da linea di comando, numero intero EFFECTS: stampa true se il numero
+   * inserito è primo, altrimenti niente
+   *
+   * @param args .
+   */
+  public static void main(String[] args) {
+    int n = Integer.parseInt(args[0]);
+    if (isPrime(n)) System.out.println("true");
+  }
 }

@@ -18,27 +18,41 @@ You should have received a copy of the GNU General Public License
 along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
 package it.unimi.di.prog2.e03;
+
+import java.util.Scanner;
 
 /**
  * Vedi <a
  * href="https://github.com/mapio/labprog/blob/master/esercizi/bounding_box/Testo.md">testo</a>,
  */
 public class BoundingBox {
-
-  /** . */
-  private BoundingBox() {}
-
-  /*- Completa il seguente main
-
+  
   public static void main(String[] args) {
+
+    int firstRow = -1, lastRow = -1, firstCol = -1, lastCol = -1, cont = 0;
+
     try (Scanner s = new Scanner(System.in)) {
       while (s.hasNext()) {
         final String linea = s.nextLine();
+        cont += 1;
+
+        for (int i = 0; i < linea.length(); i++) {
+          if (linea.charAt(i) == '*') {
+            if (firstRow == -1) {
+              firstRow = cont;
+            }
+            if (firstCol == -1 || i < firstCol) {
+              firstCol = i;
+            }
+            if (i > lastCol) {
+              lastCol = i;
+            }
+            lastRow = cont;
+          }
+        }
       }
     }
+    System.out.println((lastRow - firstRow + 1) + " " + (lastCol - firstCol + 1));
   }
-
-  */
 }

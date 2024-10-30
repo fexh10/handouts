@@ -18,25 +18,46 @@ You should have received a copy of the GNU General Public License
 along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
 package it.unimi.di.prog2.e04;
 
-/**
- * Vedi <a
- * href="https://github.com/mapio/labprog/blob/master/esercizi/nave_spaziale/Testo.md">testo</a>.
- */
 public class NaveSpaziale {
-
-  /** . */
+  /** costruttore */
   private NaveSpaziale() {}
 
-  // Se String[] args è il vettore che contiene gli argomenti sulla linea
-  // di comando, potete convertire i primi due in numeri interi con le
-  // dichiarazioni (e inizializzazioni) seguenti
-  //
-  // int from = Integer.parseInt(args[0]);
-  // int to = Integer.parseInt(args[1]);
-  //
-  // non c'è bisogno di importare alcun package per poter usare Integer.
+  /**
+   * the main
+   *
+   * @param args the command line arguments
+   */
+  public static void main(String[] args) {
+    int from = Integer.parseInt(args[0]);
+    int to = Integer.parseInt(args[1]);
 
+    if (to % 2 == 0 && to > from * 4) {
+      while (from < to / 4) {
+        from += 1;
+        System.out.print("P");
+      }
+      from *= 4;
+      System.out.print("S");
+      for (int i = from; i < to; i++) {
+        System.out.print("P");
+      }
+    } else {
+      if (from * 4 > to) {
+        for (int i = from; i < to; i++) {
+          System.out.print("P");
+        }
+      } else {
+        while (from * 4 < to) {
+          System.out.print("S");
+          from = from * 4;
+        }
+        for (int i = from; i < to; i++) {
+          System.out.print("P");
+        }
+      }
+    }
+    System.out.println();
+  }
 }

@@ -24,6 +24,8 @@ package it.unimi.di.prog2.e06;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.*;
+
 
 /** Esercizio 4.4 di PDJ. */
 public class CombineClient {
@@ -48,10 +50,33 @@ public class CombineClient {
     return result;
   }
 
-  // Il main di questa classe legge due righe dal flusso di ingresso ciascuna
-  // delle quali contiene gli interi (separati da spazi) di uno dei due array da
-  // combinare e ne emette il risultato della combinazione (separando gli interi
-  // uno per linea). Può avvalersi della funzione precedente per decodificare
-  // ciascuna delle due linee in ingresso.
-
+  /**
+   * Metodo che combina due array.
+   * 
+   * Il metodo esegue la somma degli elementi di b, 
+   *  e stampa il prodotto tra quel risultato e gli elementi in a.
+   * 
+   * @param a array di interi. se a è vuoto o nullo non fa nulla.
+   * @param b array di interi. se b è vuoto o nullo non fa nulla.
+   */
+  static void combine (int[ ] a, int[ ] b) { 
+    int sum = IntStream.of(b).sum();
+    for (int n : a) {
+      System.out.println(n * sum);
+    }
+  }
+  
+  /**
+   * Metodo principale.
+   * 
+   * @param args non utilizzato
+   */
+  public static void main(String[] args) {
+    int[] a, b;
+    try (Scanner sc = new Scanner(System.in)) {
+      a = parseInts(sc.nextLine());
+      b = parseInts(sc.nextLine());
+    }
+    combine(a, b);
+  }
 }

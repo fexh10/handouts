@@ -21,15 +21,52 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e06;
 
+import java.util.Scanner;
+import java.util.List;
+import java.util.ArrayList;
+
 /** Esercizio 4.2 di PDJ. */
 public class SearchClient {
 
   /** . */
   private SearchClient() {}
 
-  // Il main fi questa classe legge dal flusso di ingresso una sequenza di
-  // interi (separati da spazi) e, assumendo che sia ordinata in ordine
-  // crescente, emette nel flusso d'uscita la posizione dell'intero specificato
-  // sulla linea di comando (se presente nell'input), o -1 viceversa.
+  /**
+   * Metodo che controlla se l'elemento x è prensente in a.
+   * 
+   * @param a array di interi in ordine cresente. se a è null, sollevo {@code NullPointerException}
+   * @param x numero da trovare nell'array. Se non è presente sollevo {@code NotFoundException}
+   * @return l'indice dell'elemento trovato
+   * @throws NullPointerException .
+   * @throws NotFoundException .
+   */
+  public static int search (int[ ] a, int x) throws NullPointerException, NotFoundException {
+    if (a == null) throw new NullPointerException("L'array è vuoto");
+    for (int i = 0; i < a.length; i++) 
+      if (a[i] == x) return i;
+    throw new NotFoundException("elemento non trovato");
+  }
 
+  /**
+   * Metodo pricipale
+   * 
+   * @param args che contiene un numero da ricercare nell'array inserito.
+   */
+  public static void main(String[] args) {
+    int n = Integer.parseInt(args[0]);
+    List<Integer> a = new ArrayList<>();
+    try (Scanner sc = new Scanner(System.in)) {      
+        String [] array = sc.nextLine().split(" ");
+        for (String string : array) {
+          a.add(Integer.parseInt(string));
+        }
+    }
+    int[] result = new int[a.size()];
+    for (int i = 0; i < a.size(); i++) result[i] = a.get(i);
+    try {
+      System.out.println(search(result, n));
+    } catch (NotFoundException e) {
+      System.out.println(-1);
+    }
+  }
 }

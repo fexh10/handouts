@@ -18,19 +18,37 @@ You should have received a copy of the GNU General Public License
 along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
-
 package it.unimi.di.prog2.e05;
 
-/** Esercizio 3.2 di PDJ. */
 public class SumClient {
 
   /** . */
   private SumClient() {}
 
-  // Aggiunga qui un main che invochi il metodo sum (che può sviluppare in
-  // questa o altra classe) descritto dall'esercizio 3.2 di PDJ.
+  /**
+   * REQUIRES: array di interi EFFECTS: restitusce la somma dei numeri presenti nell'array
+   *
+   * @param a .
+   * @return .
+   */
+  public static int sum(int[] a) {
+    int somma = 0;
+    for (int i : a) {
+      somma += i;
+    }
+    return somma;
+  }
 
-  // Il main riceve un elenco di interi come parametri sulla linea di comando e
-  // ne emette la somma nel flusso d'ingresso.
-
+  /**
+   * REQURES: argomento linea di comando, numeri interi EFFECTS: stampa la somma dei numeri inseriti
+   *
+   * @param args .
+   */
+  public static void main(String[] args) {
+    int[] n = new int[args.length];
+    for (int i = 0; i < args.length; i++) {
+      n[i] = Integer.parseInt(args[i]);
+    }
+    System.out.println(sum(n));
+  }
 }
