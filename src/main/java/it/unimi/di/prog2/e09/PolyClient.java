@@ -21,6 +21,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e09;
 
+import java.util.Scanner;
+
 /** A class to test some methods of {@link Poly}. */
 public class PolyClient {
 
@@ -37,9 +39,6 @@ public class PolyClient {
    *
    * @param args not used.
    */
-
-  /*- Uncomment the main method once you have implemented the add method in Poly class
-
   public static void main(String[] args) {
     Poly result = new Poly();
     try (Scanner s = new Scanner(System.in)) {
@@ -50,6 +49,4 @@ public class PolyClient {
       for (int d = 0; d <= result.degree(); d++) System.out.println(result.coeff(d) + " " + d);
     }
   }
-
-  */
 }

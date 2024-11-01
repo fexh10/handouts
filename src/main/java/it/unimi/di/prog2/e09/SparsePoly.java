@@ -23,19 +23,23 @@ package it.unimi.di.prog2.e09;
 
 import it.unimi.di.prog2.h08.impl.NegativeExponentException;
 import java.util.List;
+import java.util.Collections;
+import java.util.ArrayList;
 
 /**
- * {@code SparsePoly}s are immutable polynomials with integer coefficients such that the number of
+ * {@code SparsePoly}s are immutable polynomials with integer coefficients such
+ * that the number of
  * nonzero coefficient is small with respect to the degree.
  *
- * <p>A typical {@code Poly} is \( p = c_0 + c_1 x + c_2 x^2 + \cdots + c_n x^n \).
+ * <p>
+ * A typical {@code Poly} is \( p = c_0 + c_1 x + c_2 x^2 + \cdots + c_n x^n \).
  */
 public class SparsePoly {
 
   /**
    * A record holding a term of the polynomial.
    *
-   * @param coeff the coefficient.
+   * @param coeff  the coefficient.
    * @param degree the degree.
    */
   public record Term(int coeff, int degree) {
@@ -55,7 +59,7 @@ public class SparsePoly {
 
   /** Initializes this to be the zero polynomial, that is \( p = 0 \). */
   public SparsePoly() {
-    terms = null; // replace this with the actual implementation
+    terms = Collections.emptyList();
   }
 
   /**
@@ -66,7 +70,18 @@ public class SparsePoly {
    * @throws NegativeExponentException if {@code n} &lt; 0.
    */
   public SparsePoly(int c, int n) throws NegativeExponentException {
-    terms = null; // replace this with the actual implementation
+    if (n < 0)
+      throw new NegativeExponentException("Esponente negativo");
+    terms = List.of(new Term(c, n));
+  }
+
+  /**
+   * Initializes this to be the polynomial with the given terms.
+   * 
+   * @param lista the list of terms.
+   */
+  private SparsePoly(final List<Term> lista) {
+    terms = Collections.unmodifiableList(lista);
   }
 
   /**
@@ -76,66 +91,98 @@ public class SparsePoly {
    * @return the coefficient of the considered term.
    */
   public int coeff(int d) {
-    return 0; // replace this with the actual implementation
+    for (Term term : terms) 
+      if (term.degree() == d) return term.coeff();
+    return 0;
   }
 
   /**
    * Returns the degree of this polynomial.
    *
-   * @return the largest exponent with a non-zero coefficient; returns 0 if this is the zero {@code
+   * @return the largest exponent with a non-zero coefficient; returns 0 if this
+   *         is the zero {@code
    *     Poly}.
    */
   public int degree() {
-    return 0; // replace this with the actual implementation
+    return terms.isEmpty() ? 0 : terms.get(terms.size() - 1).degree;
   }
 
   /**
    * Performs polynomial addition.
    *
-   * <p>If \( p \) is this polynomial, returns \( p + q \).
+   * <p>
+   * If \( p \) is this polynomial, returns \( p + q \).
    *
    * @param q the polynomial to add to this one.
    * @return the sum among this and the given polynomial.
    * @throws NullPointerException if {@code q} is {@code null}.
    */
   public SparsePoly add(SparsePoly q) throws NullPointerException {
-    return null; // replace this with the actual implementation
+    if (q == null) throw new NullPointerException("Il polinomio q è null");
+    List<Term> result = new ArrayList<>();
+
+    int i = 0, j = 0;
+    while (i < terms.size() || j < q.terms.size()) {
+      Term t1 = (i < terms.size()) ? terms.get(i) : null;
+      Term t2 = (j < q.terms.size()) ? q.terms.get(j) : null;
+      if (t1 != null && (t2 == null || t1.degree() < t2.degree())) {
+        result.add(t1);
+        i += 1;
+      } else if (t2 != null && (t1 == null || t2.degree() < t1.degree())) {
+        result.add(t2);
+        j += 1;
+      } else {
+        result.add(new Term(t1.coeff() + t2.coeff(), t1.degree()));
+        i += 1;
+        j += 1;
+      }
+    }
+    return new SparsePoly(result);
   }
 
   /**
    * Performs polynomial multiplication.
    *
-   * <p>If \( p \) is this polynomial, returns \( p q \).
+   * <p>
+   * If \( p \) is this polynomial, returns \( p q \).
    *
    * @param q the polynomial to multiply by this one.
    * @return the product among this and the given polynomial.
    * @throws NullPointerException if {@code q} is {@code null}.
    */
   public SparsePoly mul(SparsePoly q) throws NullPointerException {
-    return null; // replace this with the actual implementation
+    if (q == null) throw new NullPointerException("Il polinomio q è null");
+    List<Term> result = new ArrayList<>();
+    for (Term term1 : terms) 
+      for (Term term2 : q.terms) result.add(new Term(term1.coeff() * term2.coeff(), term1.degree() + term2.degree()));
+    return new SparsePoly(result);
   }
 
   /**
    * Performs polynomial subtraction.
    *
-   * <p>If \( p \) is this polynomial, returns \( p - q \).
+   * <p>
+   * If \( p \) is this polynomial, returns \( p - q \).
    *
    * @param q the polynomial to subtract from this one.
    * @return the subtraction among this and the given polynomial.
    * @throws NullPointerException if {@code q} is {@code null}.
    */
   public SparsePoly sub(SparsePoly q) throws NullPointerException {
-    return null; // replace this with the actual implementation
+    return add(q.minus());
   }
 
   /**
    * Returns the negate polynomial.
    *
-   * <p>If \( p \) is this polynomial, returns \( -p \).
+   * <p>
+   * If \( p \) is this polynomial, returns \( -p \).
    *
    * @return this polynomial multiplied by \( -1 \).
    */
   public SparsePoly minus() {
-    return null; // replace this with the actual implementation
+    List<Term> result = new ArrayList<>();
+    for (Term term : terms) result.add(new Term(-term.coeff(), term.degree()));
+    return new SparsePoly(result);
   }
 }

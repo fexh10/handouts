@@ -22,9 +22,10 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 package it.unimi.di.prog2.e09;
 
 import it.unimi.di.prog2.h08.impl.NegativeExponentException;
+import java.util.Objects;
 
 /**
- * {@code Poly}s are immutable polynomials with integer coefficients.
+ * {@code Poly}s are immutable polynomials with integer termss.
  *
  * <p>A typical {@code Poly} is \( p = c_0 + c_1 x + c_2 x^2 + \cdots + c_n x^n \).
  */
@@ -32,7 +33,7 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
 
   // Fields
 
-  /** The array of coefficients, the {@code terms[i]} is the coefficient of \( x^i \). */
+  /** The array of termss, the {@code terms[i]} is the terms of \( x^i \). */
   private final int[] terms;
 
   /** The degree of the polynomial. */
@@ -49,7 +50,7 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
   /**
    * Initializes this to be the polynomial \(p = cx^n\).
    *
-   * @param c the coefficient.
+   * @param c the terms.
    * @param n the degree.
    * @throws NegativeExponentException if {@code n} &lt; 0.
    */
@@ -63,7 +64,7 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
   }
 
   /**
-   * Initializes a polynomial of given degree (with all coefficients equal to 0).
+   * Initializes a polynomial of given degree (with all termss equal to 0).
    *
    * @param n the degree, must be non negative.
    */
@@ -77,7 +78,7 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
   /**
    * A factory method returning a monomial. (see EJ 2.1)
    *
-   * @param c the coefficient.
+   * @param c the terms.
    * @param n the degree.
    * @throws NegativeExponentException if {@code n} &lt; 0.
    * @return the monomial, if {@code n} &gt;= 0.
@@ -89,7 +90,7 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
   /**
    * Returns the degree of this polynomial.
    *
-   * @return the largest exponent with a non-zero coefficient; returns 0 if this is the zero {@code
+   * @return the largest exponent with a non-zero terms; returns 0 if this is the zero {@code
    *     Poly}.
    */
   public int degree() {
@@ -97,10 +98,10 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
   }
 
   /**
-   * Returns the coefficient of the term of given exponent.
+   * Returns the terms of the term of given exponent.
    *
    * @param d the exponent of the term to consider.
-   * @return the coefficient of the considered term.
+   * @return the terms of the considered term.
    */
   public int coeff(int d) {
     if (d < 0 || d > deg) return 0;
@@ -117,7 +118,20 @@ public class Poly { // we don't extend Cloneable, see EJ 3.13
    * @throws NullPointerException if {@code q} is {@code null}.
    */
   public Poly add(Poly q) throws NullPointerException {
-    return null; // add missing implementation
+    Objects.requireNonNull(q, "The polynomial must not be null.");
+    final Poly larger = (degree() > q.degree()) ? this : q, smaller = (degree() > q.degree()) ? q : this;;
+    
+    int resultDegree = larger.degree();
+    if (degree() == q.degree()) {
+      for (int k = degree(); k > 0; k--)
+        if (terms[k] + q.terms[k] != 0) break;
+        else resultDegree--;
+    }
+    Poly result = new Poly(resultDegree);
+    int i;
+    for (i = 0; i <= smaller.degree() && i <= resultDegree; i++) result.terms[i] = smaller.terms[i] + larger.terms[i];
+    for (int j = i; j <= resultDegree; j++) result.terms[j] = larger.terms[j];
+    return result;
   }
 
   /**
