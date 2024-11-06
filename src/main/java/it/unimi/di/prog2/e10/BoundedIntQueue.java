@@ -39,21 +39,71 @@ public class BoundedIntQueue {
   // Collection Framework class. An array can be used to store the elements in a
   // circular buffer (see https://www.wikiwand.com/en/articles/Circular_buffer).
 
+  private int[] queue;
+
   /**
    * Creates a new bounded queue with the given capacity.
    *
    * @param capacity the capacity of the queue.
    * @throws IllegalArgumentException if {@code capacity} is negative.
    */
-  public BoundedIntQueue(int capacity) {}
+  public BoundedIntQueue(int capacity) {
+    if (capacity < 0) throw new IllegalArgumentException("La capacità non può essere negativa");
+    queue = new int[capacity];
+  }
 
   /**
+   * Restituisce la capacità della coda
+   * @return la capacità della coda
+   */
+  public int getCapacity() {
+    return queue.length;
+  }
+
+  /**
+   * Calcola la lunghezza effettiva della coda
+   * @return la lunghezza della coda
+   */
+  public int length() {
+    int length = 0;
+    for (int i = 0; i < getCapacity(); i++) {
+      if (queue[i] != 0) {
+        length++;
+      }
+    }
+    return length;
+  }
+
+  /**
+   * Controlla che un coda sia piena
+   * 
+   *@return true se la coda è piena, false altrimenti
+   */
+  public boolean isFull() {
+    if (length() == queue.length) return true;
+    return false;
+  }
+
+   /**
+    * Controlla che la coda sia vuota o meno.
+    *
+    * @return true se la coda è vuota, false altrimenti.
+    */
+  public boolean isEmpty() {
+    if (length() == 0) return true;
+    return false;
+  }
+
+   /**
    * Adds an element to the queue.
    *
    * @param x the element to add.
    * @throws IllegalStateException if the queue is full.
    */
-  public void enqueue(int x) {}
+  public void enqueue(int x) {
+    if (isFull()) throw new IllegalStateException("La coda è piena");
+    queue[length()] = x;
+  }
 
   /**
    * Removes the element at the head of the queue.
@@ -62,6 +112,40 @@ public class BoundedIntQueue {
    * @throws IllegalStateException if the queue is empty.
    */
   public int dequeue() {
-    return 0;
+    if (isEmpty()) throw new IllegalArgumentException("La coda è vuota");
+    int head = queue[0];
+    for (int i = 0; i < length() - 1; i++) {
+      queue[i] = queue[i + 1];
+    }
+    queue[length() - 1] = 0;
+    return head;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof BoundedIntQueue other)) return false;
+    if (length() != other.length()) return false;
+    for (int i = 0; i < length(); i++) {
+      if (queue[i] != other.queue[i]) return false;
+    }
+    return true;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("BoundedIntQueue: [");
+    for (int i = 0; i < length(); i++) {
+      sb.append(queue[i]);
+      if (i < length() - 1) sb.append(", ");
+    }
+    sb.append("]");
+    return sb.toString();
   }
 }

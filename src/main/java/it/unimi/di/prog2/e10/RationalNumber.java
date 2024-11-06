@@ -32,13 +32,62 @@ public class RationalNumber {
   // equals, hashCode, and toString methods); add methods that are adequate to
   // the specification.
 
+  private int num, den;
+
   /**
    * Creates a new rational number.
    *
    * @param numerator the numerator.
    * @param denominator the denominator.
+   * @throws IllegalArgumentException if {@code denominator} is zero.
    */
-  public RationalNumber(int numerator, int denominator) {}
+  public RationalNumber(int numerator, int denominator) {
+    if (denominator == 0) throw new IllegalArgumentException("Denominator cannot be zero");
+    num = numerator;
+    den = denominator;
+  }
+
+  /**
+   * Returns the gcd of two numbers using the Euclidean algorithm.
+   * @param a the first number.
+   * @param b the second number.
+   * @return the greatest common divisor of {@code a} and {@code b}.
+   */
+  public static int euclideanAlgorithm(int a, int b) {
+    while (b != 0) {
+      int temp = b;
+      b = a % b;
+      a = temp;
+    }
+    return a;
+  }
+
+  /**
+   * Returns the greatest common divisor of this denominator rational number and another one using the Euclidean algorithm.
+   * @return the greatest common divisor of the denominator between this rational number and {@code other}.
+   */
+  public int gcd(RationalNumber other) {
+    return euclideanAlgorithm(den, other.den);
+  }
+
+  /**
+   * Returns the least common multiple of this rational number and another one.
+   * @param other the other rational number.
+   * @return the least common multiple .
+   */
+  public int lcm(RationalNumber other) {
+    return den * other.den / gcd(other);
+  }
+
+  /**
+   * Calculates the simplified form of a rational number using the Euclidean algorithm,
+   *  dividing the numerator and denominator by their greatest common divisor.
+   * @return the simplified form of the rational number.
+   */
+  public RationalNumber simplify() {
+    int a = euclideanAlgorithm(num, den);
+    return new RationalNumber(num / a, den / a);
+  }
 
   /**
    * Returns the sum of this rational number and another one.
@@ -47,7 +96,9 @@ public class RationalNumber {
    * @return the sum of this rational number and {@code other}.
    */
   public RationalNumber add(RationalNumber other) {
-    return null;
+    int denominator = lcm(other);
+    int numerator = (denominator / den) * num + (denominator / other.den) * other.num;
+    return new RationalNumber(numerator, denominator).simplify();
   }
 
   /**
@@ -57,6 +108,23 @@ public class RationalNumber {
    * @return the product of this rational number and {@code other}.
    */
   public RationalNumber mul(RationalNumber other) {
-    return null;
+    return new RationalNumber(num * other.num, den * other.den).simplify();
+  }
+
+  @Override
+  public String toString() {
+    return num + "/" + den;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof RationalNumber other)) return false;
+    return simplify().num == other.simplify().num && simplify().den == other.simplify().den;
   }
 }
