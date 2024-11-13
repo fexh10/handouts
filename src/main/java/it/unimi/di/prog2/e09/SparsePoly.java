@@ -51,7 +51,7 @@ public class SparsePoly {
     public Term { // using the compact constructor
       if (degree < 0)
         throw new NegativeExponentException("A term cannot have a negative exponent.");
-      if (coeff == 0) throw new IllegalArgumentException("A term cannot have a zero coefficient.");
+      //if (coeff == 0) throw new IllegalArgumentException("A term cannot have a zero coefficient.");
     }
   }
 

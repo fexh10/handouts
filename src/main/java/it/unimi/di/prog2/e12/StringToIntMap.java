@@ -21,6 +21,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e12;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 /**
@@ -35,8 +37,26 @@ public class StringToIntMap {
   // EXERCISE: provide a representation, together with its AF and RI
   // Note: do not use the Map in Java Collections, the point is to implement it from scratch!
 
+  
+  /** list containing the keys*/
+  private List<String> keys;
+  /** list containing the values*/
+  private List<Integer> values;
+
+  /*-
+   * AF(keys, values) = a map where keys.get(i) is associated to values.get(i) for each i in [0, keys.size()).
+   * 
+   * RI:
+   *  - keys.size() == values.size()
+   *  - for each i in [0, keys.size()), keys.get(i) != null
+   *  - for each i in [0, keys.size()), values.get(i) != null
+   */
+
   /** Creates a new empty map. */
-  public StringToIntMap() {}
+  public StringToIntMap() {
+    keys = new ArrayList<>();
+    values = new ArrayList<>();
+  }
 
   /**
    * Returns the size of this map.
@@ -44,7 +64,7 @@ public class StringToIntMap {
    * @return the number of key-value mappings in this map.
    */
   public int size() {
-    return 0;
+    return keys.size();
   }
 
   /**
@@ -53,8 +73,30 @@ public class StringToIntMap {
    * @return {@code true} iff this map contains no key-value mappings.
    */
   public boolean isEmpty() {
-    return false;
+    return keys.isEmpty();
   }
+
+  /**
+   * Performs a binary search on the given list of elements to find the given element.
+   * 
+   * <p>The list must be sorted in lexicographic order. If the element is found, the method returns the first index where the element is found;
+   *  otherwise it returns the negative index -1 where the element should be inserted to keep the list sorted.
+   * 
+   * @param elements the list of elements to search in.
+   * @param toFind the element to search for.
+   * @return the index of the element in the list, or the negative index -1 where the element should be inserted.
+   */
+  private static int binarySearch(List<String> elements, String toFind) {
+    int sx = 0, dx = elements.size() - 1;
+    while (sx <= dx) {
+        int m = (sx + dx) / 2;
+        int order = toFind.compareTo(elements.get(m));
+        if (order == 0) return m;
+        else if (order < 0) dx = m - 1;
+        else sx = m + 1;
+    }
+    return -sx - 1;
+}
 
   /**
    * Returns if this map contains the specified key.
@@ -63,7 +105,7 @@ public class StringToIntMap {
    * @return {@code true} iff this map contains a key-value mappings with the given {@code key}.
    */
   public boolean containsKey(String key) {
-    return false;
+    return binarySearch(keys, key) >= 0;
   }
 
   /**
@@ -73,7 +115,7 @@ public class StringToIntMap {
    * @return {@code true} iff this map contains a key-value mappings with the given {@code value}.
    */
   public boolean containsValue(int value) {
-    return false;
+    return values.indexOf(value) != 1;
   }
 
   /**
@@ -84,7 +126,9 @@ public class StringToIntMap {
    * @throws NoSuchElementException if this map contains no mapping for the key.
    */
   public int get(String key) throws NoSuchElementException {
-    return 0;
+    int pos = binarySearch(keys, key);
+    if (pos < 0) throw new NoSuchElementException("No such key in the map");
+    return values.get(pos);
   }
 
   /**
@@ -96,7 +140,14 @@ public class StringToIntMap {
    *     modified by this operation.
    */
   public boolean put(String key, int value) {
-    return false;
+    int pos = binarySearch(keys, key);
+    if (pos >= 0) {
+      values.set(pos, value);
+      return false;      
+    }
+    keys.add(-pos - 1, key);
+    values.add(-pos - 1, value);
+    return true;
   }
 
   /**
@@ -107,9 +158,16 @@ public class StringToIntMap {
    *     modified by this operation.
    */
   public boolean remove(String key) {
-    return false;
+    int pos = binarySearch(keys, key);
+    if (pos < 0) return false;
+    keys.remove(pos);
+    values.remove(pos);
+    return true;
   }
 
   /** Removes all of the mappings from this map. */
-  public void clear() {}
+  public void clear() {
+    keys.clear();
+    values.clear();
+  }
 }
