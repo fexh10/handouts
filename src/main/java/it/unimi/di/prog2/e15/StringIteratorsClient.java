@@ -21,6 +21,9 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e15;
 
+import java.util.Iterator;
+import java.util.Scanner;
+
 /** A class to test {@link StringIterators}. */
 public class StringIteratorsClient {
 
@@ -32,13 +35,10 @@ public class StringIteratorsClient {
    *
    * @param args not used.
    */
-  /*-  uncomment the following code once you have implemented the methods in StringIterators
-
   public static void main(String[] args) {
     try (Scanner s = new Scanner(System.in)) {
       Iterator<String> it = StringIterators.uppercase(StringIterators.evenIterator(s));
       while (it.hasNext()) System.out.println(it.next());
     }
   }
-  */
 }
