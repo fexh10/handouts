@@ -19,26 +19,34 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 
-package it.unimi.di.prog2.e15;
+package it.unimi.di.prog2.h17;
 
-import java.util.Iterator;
 import java.util.Scanner;
 
-/** A class to test {@link StringIterators}. */
-public class StringIteratorsClient {
+/** Test class for {@link MaxIntSet}. */
+public class MaxIntSetClient {
 
   /** . */
-  private StringIteratorsClient() {}
+  private MaxIntSetClient() {}
 
   /**
-   * Prints the uppercase version of the lines of even length in the standard input.
+   * Reads a series of instructions and prints the resulting set from their execution.
+   *
+   * <p>After instantiating an empty set, it reads a series of integers from the input stream. If
+   * they are positive, it adds them to the set; if they are negative, it removes the corresponding
+   * absolute value. If the integer is 0, it prints the set.
    *
    * @param args not used.
    */
   public static void main(String[] args) {
+    MaxIntSet M = new MaxIntSet();
     try (Scanner s = new Scanner(System.in)) {
-      Iterator<String> it = StringIterators.uppercase(StringIterators.evenIterator(s));
-      while (it.hasNext()) System.out.println(it.next());
+      while (s.hasNextInt()) {
+        int x = s.nextInt();
+        if (x > 0) M.insert(x);
+        else if (x < 0) M.remove(-x);
+        else System.out.println(M);
+      }
     }
   }
 }

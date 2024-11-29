@@ -19,26 +19,26 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 
-package it.unimi.di.prog2.e15;
+package it.unimi.di.prog2.e17;
 
-import java.util.Iterator;
-import java.util.Scanner;
+/** A mutable class representing a square with integer valued base. */
+public class Square extends Rectangle {
 
-/** A class to test {@link StringIterators}. */
-public class StringIteratorsClient {
+  /*-
+    Decide, if needed, what fields to use to represent a
+    square and provide the AF and IR.
 
-  /** . */
-  private StringIteratorsClient() {}
+    Check the specification, possibly adding missing exceptions.
+
+    Finish the implementation of the class.
+  */
 
   /**
-   * Prints the uppercase version of the lines of even length in the standard input.
+   * Creates a rectangle of given base and height.
    *
-   * @param args not used.
+   * @param base the base of the rectangle.
    */
-  public static void main(String[] args) {
-    try (Scanner s = new Scanner(System.in)) {
-      Iterator<String> it = StringIterators.uppercase(StringIterators.evenIterator(s));
-      while (it.hasNext()) System.out.println(it.next());
-    }
+  public Square(final int base) {
+    super(base, base);
   }
 }
