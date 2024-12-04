@@ -21,7 +21,10 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e17;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -32,33 +35,42 @@ import java.util.NoSuchElementException;
  */
 public class Histogram implements Iterable<Rectangle> {
 
-  /*-
-    Decide what fields to use to represent a rectangle and
-    provide the AF and IR.
-
-    Check the specification, possibly adding missing exceptions.
-
-    Finish the implementation of the class.
-  */
+  /** the list of rectangles */
+  private List<Rectangle> rectangles;
 
   /** Creates an empty histogram. */
-  public Histogram() {}
+  public Histogram() {
+    rectangles = new ArrayList<>();
+  }
 
   /**
    * Adds a {@link Rectangle} to this histogram.
    *
    * @param rectangle the rectangle to add.
    */
-  public void add(Rectangle rectangle) {}
+  public void add(Rectangle rectangle) {
+    int i;
+    for (i = 0; i < rectangles.size();i++) {
+      if (rectangle.height() > rectangles.get(i).height())
+        break;
+    }
+    rectangles.add(i, rectangle);
+  }
 
   /**
    * Changes the base of the given rectangle
    *
    * @param rectangle the rectangle.
    * @param newBase the new base.
+   * @throws IllegalArgumentException if the new base is <= 0.
    * @throws NoSuchElementException if the rectangle is not in the histogram.
    */
-  public void changeBase(Rectangle rectangle, int newBase) {}
+  public void changeBase(Rectangle rectangle, int newBase) {
+    if (newBase <= 0) throw new IllegalArgumentException("base must be non-negative");
+    int i = rectangles.indexOf(rectangle);
+    if (i == -1) throw new NoSuchElementException();
+    rectangles.get(i).base(newBase);
+  }
 
   /**
    * Returns an iterator that produces the rectangles in this histogram in decreasing height order.
@@ -67,6 +79,6 @@ public class Histogram implements Iterable<Rectangle> {
    */
   @Override
   public Iterator<Rectangle> iterator() {
-    return null;
+    return Collections.unmodifiableList(rectangles).iterator();
   }
 }

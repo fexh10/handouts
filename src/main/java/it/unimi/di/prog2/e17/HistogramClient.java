@@ -21,6 +21,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e17;
 
+import java.util.Scanner;
+
 /** A class to test {@link Histogram}. */
 public class HistogramClient {
 
@@ -45,15 +47,6 @@ public class HistogramClient {
    *
    * @param args not used.
    */
-
-  /* -
-
-    - implemented the Rectangle class,
-    - uncomment this method and run the tests,
-    - implement the square class,
-    - replace new Rectangle(size, size) with new Square(size) in the following code,
-    - run the tests again.
-
   public static void main(String[] args) {
     Histogram histogram = new Histogram();
     Rectangle firstRectangle = null;
@@ -69,5 +62,4 @@ public class HistogramClient {
     histogram.changeBase(firstRectangle, firstRectangle.base() * 2);
     for (Rectangle rectangle : histogram) System.out.println(rectangle.height());
   }
-  */
 }

@@ -24,14 +24,11 @@ package it.unimi.di.prog2.e17;
 /** A mutable class representing a square with integer valued base. */
 public class Square extends Rectangle {
 
-  /*-
-    Decide, if needed, what fields to use to represent a
-    square and provide the AF and IR.
-
-    Check the specification, possibly adding missing exceptions.
-
-    Finish the implementation of the class.
-  */
+  /**
+   * AF(base) = a square with base and height equal to base().
+   * 
+   * IR: is the same as the one of {@link Rectangle}.
+   */
 
   /**
    * Creates a rectangle of given base and height.
@@ -40,5 +37,38 @@ public class Square extends Rectangle {
    */
   public Square(final int base) {
     super(base, base);
+  }
+
+  /**
+   * Sets the base of the square.
+   * 
+   * @param base the base of the square.
+   * 
+   * @throws IllegalArgumentExeception if the base is <= 0
+   */
+  public void base(int base) {
+    if (base <= 0)
+      throw new IllegalArgumentException("base must be non-negative");
+    super.base(base);
+    super.height(base);
+  }
+
+  /**
+   * Sets the height (and the base) of the square.
+   * 
+   * @param height the height of the square
+   * 
+   * @throws IllegalArgumentException if the height is <= 0
+   */
+  public void height(int height) {
+    if (height <= 0)
+      throw new IllegalArgumentException("Height must be non-negative");
+    super.base(height);
+    super.height(height);
+  }
+
+  @Override
+  public String toString() {
+      return "Square{ base: " + super.base() + ", height: " + super.height() + "}";  
   }
 }

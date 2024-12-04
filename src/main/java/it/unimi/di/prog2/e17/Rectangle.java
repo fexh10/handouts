@@ -23,23 +23,33 @@ package it.unimi.di.prog2.e17;
 
 /** A mutable class representing a rectangle with integer valued base and height. */
 public class Rectangle {
+  /** the base of the rectangle */
+  private int base;
+  /** the height of the rectangle */
+  private int height;
 
   /*-
-    Decide what fields to use to represent the rectangle and
-    provide the AF and IR.
-
-    Check the specification, possibly adding missing exceptions.
-
-    Finish the implementation of the class.
-  */
+   * AF(base, height) = a rectangle with base base and height height.
+   * 
+   * IR:
+   *  - base >= 0
+   *  - height >= 0
+   */
 
   /**
    * Creates a rectangle of given base and height.
    *
    * @param base the base of the rectangle.
    * @param height height of the rectangle.
+   * 
+   * @throws IllegalArgumentException if the base or the height of the rectangle is <= 0.
    */
-  public Rectangle(int base, int height) {}
+  public Rectangle(int base, int height) {
+    if(base <= 0 || height <= 0) 
+      throw new IllegalArgumentException("Base and height must be non-negative");
+    this.base = base;
+    this.height = height;
+  }
 
   /**
    * Returns the base of the rectangle.
@@ -47,15 +57,20 @@ public class Rectangle {
    * @return the base of the rectangle.
    */
   public int base() {
-    return 0;
+    return base;
   }
 
   /**
    * Sets the base of the rectangle.
    *
    * @param base the new base of the rectangle.
+   * @throws IllegalArgumentException if the base is <= 0.
    */
-  public void base(int base) {}
+  public void base(int base) {
+    if(base <= 0) 
+      throw new IllegalArgumentException("Base must be non-negative");
+    this.base = base;
+  }
 
   /**
    * Returns the height of the rectangle.
@@ -63,18 +78,26 @@ public class Rectangle {
    * @return the height of the rectangle.
    */
   public int height() {
-    return 0;
+    return height;
   }
 
   /**
    * Sets the height of the rectangle.
    *
    * @param height the new height of the rectangle.
+   * 
+   *  @throws IllegalArgumentException if the the height is  <= 0.
    */
-  public void height(int height) {}
+  public void height(int height) {
+    if (height <= 0) 
+      throw new IllegalArgumentException("Height must be non-negative");
+    this.height = height;
+  }
 
   @Override
   public String toString() {
-    return null;
+    StringBuilder sb = new StringBuilder();
+    sb.append("Rectangle{base=").append(base).append(", height=").append(height).append("}");
+    return sb.toString();
   }
 }
