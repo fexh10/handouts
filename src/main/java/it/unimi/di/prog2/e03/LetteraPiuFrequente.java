@@ -29,7 +29,7 @@ import java.util.Scanner;
  * Vedi <a href=
  * "https://github.com/mapio/labprog/blob/master/esercizi/lettera_piu_frequente/Testo.md">testo</a>,
  */
-public class LetteraPiùFrequente {
+public class LetteraPiuFrequente {
 
   // versione con array
   public static void main(String[] args) {
