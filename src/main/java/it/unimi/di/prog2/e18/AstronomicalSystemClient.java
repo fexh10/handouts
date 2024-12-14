@@ -21,6 +21,8 @@ along with this file.  If not, see <https://www.gnu.org/licenses/>.
 
 package it.unimi.di.prog2.e18;
 
+import java.util.Scanner;
+
 /**
  * Allows verification of the behavior of an astronomical system.
  *
@@ -40,11 +42,25 @@ public class AstronomicalSystemClient {
    *
    * @param args the number of simulation steps.
    */
-
-  /* - uncomment and provide the implementation
-
   public static void main(String[] args) {
+    final AstronomicalSystem as = new AstronomicalSystem();
+
+    try(Scanner s = new Scanner(System.in)) {
+      while (s.hasNextLine()) {
+        String line = s.nextLine();
+        Scanner lineScanner = new Scanner(line);
+        if (lineScanner.hasNext()) {
+          if (lineScanner.next().charAt(0) == 'P')
+            as.add(new Planet(lineScanner.next(), lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()));
+          else
+            as.add(new Star(lineScanner.next(), lineScanner.nextInt(), lineScanner.nextInt(), lineScanner.nextInt()));
+        }
+        lineScanner.close();
+      }
+    }
+    as.simulateSteps(Integer.parseInt(args[0]));
+    System.out.println(as);
+    System.out.println("Total Energy: " + as.totalEnergy());
   }
 
-  */
 }
